@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../connection/connection.dart';
@@ -87,15 +88,22 @@ class KegiatanService {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     final idSiswa = prefs.getInt('id_siswa');
+    final idTahunAjaran = prefs.getInt('id_tahun_ajaran');
 
     try {
+      final compressedImage = await FlutterImageCompress.compressAndGetFile(
+        imagePath,
+        '${imagePath}_compressed.jpg',
+        quality: 60,
+      );
       FormData formData = FormData.fromMap({
         'judul': judul,
         'deskripsi': deskripsi,
         'durasi': durasi,
         'id_kehadiran': idKehadiran,
         'id_siswa': idSiswa,
-        'foto': await MultipartFile.fromFile(imagePath),
+        'id_tahun_ajaran': idTahunAjaran,
+        'foto': await MultipartFile.fromFile(compressedImage!.path),
       });
 
       final response = await _dio.post(

@@ -110,7 +110,7 @@ class _InformationPageState extends State<InformationPage> {
                                 ),
                                 SizedBox(height: screenHeight * 0.03),
                                 _buildInfoSection(
-                                  'Pembimbing Industri',
+                                  'Pemonitoring',
                                   _homeModel?.pemonitoring ?? '-',
                                   Icons.work,
                                 ),

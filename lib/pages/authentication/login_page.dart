@@ -48,6 +48,8 @@ class _LoginPageState extends State<LoginPage> {
         prefs.setString('token', result['data']['token']);
         prefs.setInt('id_user', result['data']['user']['id']);
         prefs.setInt('id_siswa', result['data']['siswa']['id']);
+        prefs.setInt(
+            'id_tahun_ajaran', result['data']['siswa']['id_tahun_ajaran']);
 
         Navigator.pushReplacementNamed(context, '/home');
       } else {

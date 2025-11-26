@@ -95,7 +95,6 @@ class _PresensiFormulirPageState extends State<PresensiFormulirPage> {
       allowedSources: const [
         FileSourceType.camera,
         FileSourceType.gallery,
-        FileSourceType.file,
       ],
       onPicked: (file, fileName) {
         setState(() {
@@ -123,14 +122,14 @@ class _PresensiFormulirPageState extends State<PresensiFormulirPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Upload Bukti / Dokumen Pendukung',
+              'Upload Bukti',
               style: const TextStyle(
                 color: AppColors.primaryDark,
                 fontWeight: FontWeight.w500,
               ),
             ),
             const Text(
-              '(Gambar/PDF/DOC)',
+              '(Gambar)',
               style: TextStyle(color: Colors.grey, fontSize: 12),
             ),
           ],
@@ -138,53 +137,13 @@ class _PresensiFormulirPageState extends State<PresensiFormulirPage> {
       );
     }
 
-    final extension = _fileName?.split('.').last.toLowerCase() ?? '';
-
-    if (extension == 'pdf') {
-      return Container(
-        decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.picture_as_pdf, size: 50, color: Colors.red),
-            const SizedBox(height: 8),
-            Text(
-              _fileName ?? 'PDF Document',
-              style: const TextStyle(fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-      );
-    } else if (extension == 'doc' || extension == 'docx') {
-      return Container(
-        decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.description, size: 50, color: Colors.blue),
-            const SizedBox(height: 8),
-            Text(
-              _fileName ?? 'Word Document',
-              style: const TextStyle(fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Image.file(
-          _file!,
-          fit: BoxFit.fill,
-        ),
-      );
-    }
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Image.file(
+        _file!,
+        fit: BoxFit.fill,
+      ),
+    );
   }
 
   @override
@@ -289,7 +248,7 @@ class _PresensiFormulirPageState extends State<PresensiFormulirPage> {
                           ),
                           _buildFormField(
                             required: true,
-                            'Bukti / Dokumen Pendukung',
+                            'Bukti',
                             InkWell(
                               onTap: _showFileSourceDialog,
                               child: Container(

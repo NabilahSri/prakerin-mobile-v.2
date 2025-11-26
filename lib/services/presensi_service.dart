@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_prakerin/connection/connection.dart';
@@ -94,6 +95,7 @@ class PresensiService {
     final token = prefs.getString('token');
     final idSiswa = prefs.getInt('id_siswa');
     final idUser = prefs.getInt('id_user');
+    final idTahunAjaran = prefs.getInt('id_tahun_ajaran');
 
     try {
       final response = await _dio.post(
@@ -106,6 +108,7 @@ class PresensiService {
           'status': 'hadir',
           'id_siswa': idSiswa,
           'id_user': idUser,
+          'id_tahun_ajaran': idTahunAjaran,
           'mode': mode,
           'token_masuk': tokenMasuk,
         },
@@ -229,15 +232,22 @@ class PresensiService {
     final token = prefs.getString('token');
     final idSiswa = prefs.getInt('id_siswa');
     final idUser = prefs.getInt('id_user');
+    final idTahunAjaran = prefs.getInt('id_tahun_ajaran');
 
     try {
+      final compressedImage = await FlutterImageCompress.compressAndGetFile(
+        imagePath,
+        '${imagePath}_compressed.jpg',
+        quality: 60,
+      );
       FormData formData = FormData.fromMap({
         'tanggal': tanggal,
         'status': status,
         'catatan': catatan,
         'id_siswa': idSiswa,
         'id_user': idUser,
-        'bukti': await MultipartFile.fromFile(imagePath),
+        'id_tahun_ajaran': idTahunAjaran,
+        'bukti': await MultipartFile.fromFile(compressedImage!.path),
       });
 
       final response = await _dio.post(

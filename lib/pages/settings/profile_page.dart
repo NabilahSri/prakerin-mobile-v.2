@@ -24,6 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
   File? _imageFile;
+  String? _imagePath;
   bool _isLoading = false;
   HomeModel? _homeModel;
   bool _isLoadingLoad = true;
@@ -45,6 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
         _emailController.text = _homeModel?.email ?? '';
         _phoneController.text = _homeModel?.noHp ?? '';
         _addressController.text = _homeModel?.alamat ?? '';
+        _imagePath = _homeModel?.foto;
         _isLoadingLoad = false;
       });
     }
@@ -179,9 +181,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                         radius: screenWidth * 0.15,
                                         backgroundImage: _imageFile != null
                                             ? FileImage(_imageFile!)
-                                            : const NetworkImage(
-                                                'https://picsum.photos/200',
-                                              ) as ImageProvider,
+                                            : _imagePath != null
+                                                ? NetworkImage(_imagePath!)
+                                                : const NetworkImage(
+                                                    'https://picsum.photos/200',
+                                                  ) as ImageProvider,
                                       ),
                                       Container(
                                         decoration: BoxDecoration(

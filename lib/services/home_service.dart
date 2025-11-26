@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:mobile_prakerin/connection/connection.dart';
@@ -28,10 +30,11 @@ class HomeService {
       if (response.statusCode == 200) {
         return HomeModel.fromJson(response.data);
       } else {
+        log('Failed to load data: ${response.statusCode}');
         throw Exception('Failed to load data');
       }
     } catch (e) {
-      print('Error getData: $e');
+      log('Error getData: $e');
       return null;
     }
   }
